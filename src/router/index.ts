@@ -1,4 +1,4 @@
-import { useRoute, createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router';
+import { useRoute, createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 
 // 自动导入modules文件夹下所有ts文件
 const modules = import.meta.globEager('./modules/**/*.ts');
@@ -51,7 +51,7 @@ export const getActive = (maxLevel = 3): string => {
 };
 
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory(),
   routes: allRoutes,
   scrollBehavior() {
     return {
