@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { TRouterInfo, TTabRouterType } from '@/types/interface';
+import type { TRouterInfo, TTabRouterType } from '@/types/interface';
 import { store } from '@/store';
 
 const homeRoute: Array<TRouterInfo> = [
@@ -49,17 +49,28 @@ export const useTabsRouterStore = defineStore('tabsRouter', {
     // 处理关闭右侧
     subtractTabRouterBehind(newRoute: TRouterInfo) {
       const { routeIdx } = newRoute;
-      this.tabRouterList = this.tabRouterList.slice(0, routeIdx + 1);
+      const homeIdx: number = this.tabRouters.findIndex((route) => route.isHome);
+      let tabRouterList: Array<TRouterInfo> = this.tabRouterList.slice(0, routeIdx + 1);
+      if (routeIdx < homeIdx) {
+        tabRouterList = tabRouterList.concat(homeRoute);
+      }
+      this.tabRouterList = tabRouterList;
     },
     // 处理关闭左侧
     subtractTabRouterAhead(newRoute: TRouterInfo) {
       const { routeIdx } = newRoute;
-      this.tabRouterList = homeRoute.concat(this.tabRouterList.slice(routeIdx));
+      const homeIdx: number = this.tabRouters.findIndex((route) => route.isHome);
+      let tabRouterList: Array<TRouterInfo> = this.tabRouterList.slice(routeIdx);
+      if (routeIdx > homeIdx) {
+        tabRouterList = homeRoute.concat(tabRouterList);
+      }
+      this.tabRouterList = tabRouterList;
     },
     // 处理关闭其他
     subtractTabRouterOther(newRoute: TRouterInfo) {
       const { routeIdx } = newRoute;
-      this.tabRouterList = routeIdx === 0 ? homeRoute : homeRoute.concat([this.tabRouterList?.[routeIdx]]);
+      const homeIdx: number = this.tabRouters.findIndex((route) => route.isHome);
+      this.tabRouterList = routeIdx === homeIdx ? homeRoute : homeRoute.concat([this.tabRouterList?.[routeIdx]]);
     },
     removeTabRouterList() {
       this.tabRouterList = [];
@@ -68,6 +79,7 @@ export const useTabsRouterStore = defineStore('tabsRouter', {
       newRoutes?.forEach((route: TRouterInfo) => this.appendTabRouterList(route));
     },
   },
+  persist: true,
 });
 
 export function getTabsRouterStore() {

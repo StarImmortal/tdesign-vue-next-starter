@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { NotificationItem } from '@/types/interface';
+import type { NotificationItem } from '@/types/interface';
 
 const msgData = [
   {
@@ -38,24 +38,6 @@ const msgData = [
     date: '2021-01-01 08:00',
     quality: 'low',
   },
-  {
-    id: '127',
-    content: '二季度生产原材料采购项目 开票成功！',
-    type: '票务动态',
-    status: true,
-    collected: false,
-    date: '2021-01-01 08:00',
-    quality: 'low',
-  },
-  {
-    id: '128',
-    content: '三季度生产原材料采购项目 开票成功！',
-    type: '票务动态',
-    status: true,
-    collected: false,
-    date: '2021-01-01 08:00',
-    quality: 'low',
-  },
 ];
 
 type MsgDataType = typeof msgData;
@@ -73,4 +55,5 @@ export const useNotificationStore = defineStore('notification', {
       this.msgData = data;
     },
   },
+  persist: true,
 });

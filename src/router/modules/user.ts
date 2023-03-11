@@ -1,5 +1,6 @@
-import Layout from '@/layouts';
-import LogoutIcon from '@/assets/assets-slide-logout.svg';
+import { LogoutIcon } from 'tdesign-icons-vue-next';
+import { shallowRef } from 'vue';
+import Layout from '@/layouts/index.vue';
 
 export default [
   {
@@ -20,7 +21,8 @@ export default [
   {
     path: '/loginRedirect',
     name: 'loginRedirect',
-    meta: { title: '登录页', icon: LogoutIcon },
+    redirect: '/login',
+    meta: { title: '登录页', icon: shallowRef(LogoutIcon) },
     component: () => import('@/layouts/blank.vue'),
     children: [
       {

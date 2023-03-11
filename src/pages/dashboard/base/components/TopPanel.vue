@@ -3,24 +3,24 @@
     <t-col v-for="(item, index) in PANE_LIST" :key="item.title" :xs="6" :xl="3">
       <t-card
         :title="item.title"
-        :style="{ height: '168px' }"
+        :bordered="false"
         :class="{ 'dashboard-item': true, 'dashboard-item--main-color': index == 0 }"
       >
         <div class="dashboard-item-top">
-          <span :style="{ fontSize: `${resizeTime * 36}px` }">{{ item.number }}</span>
+          <span :style="{ fontSize: `${resizeTime * 28}px` }">{{ item.number }}</span>
         </div>
         <div class="dashboard-item-left">
           <div
             v-if="index === 0"
             id="moneyContainer"
             class="dashboard-chart-container"
-            :style="{ width: `${resizeTime * 120}px`, height: `${resizeTime * 66}px` }"
+            :style="{ width: `${resizeTime * 120}px`, height: '100px', marginTop: '-24px' }"
           ></div>
           <div
             v-else-if="index === 1"
             id="refundContainer"
             class="dashboard-chart-container"
-            :style="{ width: `${resizeTime * 120}px`, height: `${resizeTime * 42}px` }"
+            :style="{ width: `${resizeTime * 120}px`, height: '56px', marginTop: '-24px' }"
           ></div>
           <span v-else-if="index === 2" :style="{ marginTop: `-24px` }">
             <usergroup-icon />
@@ -113,11 +113,11 @@ const updateContainer = () => {
   }
   moneyChart.resize({
     width: resizeTime.value * 120,
-    height: resizeTime.value * 66,
+    // height: resizeTime.value * 100,
   });
   refundChart.resize({
     width: resizeTime.value * 120,
-    height: resizeTime.value * 42,
+    // height: resizeTime.value * 56,
   });
 };
 
@@ -153,18 +153,20 @@ watch(
 </script>
 
 <style lang="less" scoped>
-@import '@/style/variables.less';
-
 .dashboard-item {
-  padding: 8px;
+  padding: var(--td-comp-paddingTB-xl) var(--td-comp-paddingLR-xxl);
+
+  :deep(.t-card__header) {
+    padding: 0;
+  }
 
   :deep(.t-card__footer) {
-    padding-top: 0;
+    padding: 0;
   }
 
   :deep(.t-card__title) {
-    font-size: 14px;
-    font-weight: 500;
+    font: var(--td-font-body-medium);
+    color: var(--td-text-color-secondary);
   }
 
   :deep(.t-card__body) {
@@ -173,6 +175,9 @@ watch(
     justify-content: space-between;
     flex: 1;
     position: relative;
+    padding: 0;
+    margin-top: var(--td-comp-margin-s);
+    margin-bottom: var(--td-comp-margin-xxl);
   }
 
   &:hover {
@@ -187,8 +192,8 @@ watch(
     > span {
       display: inline-block;
       color: var(--td-text-color-primary);
-      font-size: 36px;
-      line-height: 44px;
+      font: var(--td-font-headline-medium);
+      font-weight: 400;
     }
   }
 
@@ -200,6 +205,7 @@ watch(
 
     > .t-icon {
       cursor: pointer;
+      font-size: var(--td-comp-size-xxxs);
     }
   }
 
@@ -207,26 +213,25 @@ watch(
     display: flex;
     align-items: center;
     justify-content: center;
-    line-height: 22px;
     color: var(--td-text-color-placeholder);
   }
 
   &-trend {
-    margin-left: 8px;
+    margin-left: var(--td-comp-margin-s);
   }
 
   &-left {
     position: absolute;
     top: 0;
-    right: 32px;
+    right: 0;
 
     > span {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 56px;
-      height: 56px;
-      background: var(--td-brand-color-1);
+      width: var(--td-comp-size-xxxl);
+      height: var(--td-comp-size-xxxl);
+      background: var(--td-brand-color-light);
       border-radius: 50%;
 
       .t-icon {

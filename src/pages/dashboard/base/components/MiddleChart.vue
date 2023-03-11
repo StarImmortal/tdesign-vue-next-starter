@@ -1,7 +1,7 @@
 <template>
   <t-row :gutter="16" class="row-container">
     <t-col :xs="12" :xl="9">
-      <t-card title="统计数据" :subtitle="`(万元)${currentMonth}`" class="dashboard-chart-card">
+      <t-card title="统计数据" :subtitle="`(万元)${currentMonth}`" class="dashboard-chart-card" :bordered="false">
         <template #option>
           <div class="dashboard-chart-title-container">
             <t-date-range-picker
@@ -22,7 +22,7 @@
       </t-card>
     </t-col>
     <t-col :xs="12" :xl="3">
-      <t-card title="销售渠道" :subtitle="currentMonth" class="dashboard-chart-card">
+      <t-card title="销售渠道" :subtitle="currentMonth" class="dashboard-chart-card" :bordered="false">
         <div
           id="countContainer"
           ref="countContainer"
@@ -176,15 +176,20 @@ const onCurrencyChange = (checkedValues: string[]) => {
 
 <style lang="less" scoped>
 .dashboard-chart-card {
-  padding: 8px;
+  padding: var(--td-comp-paddingTB-xxl) var(--td-comp-paddingLR-xxl);
 
   :deep(.t-card__header) {
-    padding-bottom: 24px;
+    padding: 0;
+  }
+
+  :deep(.t-card__body) {
+    padding: 0;
+    margin-top: var(--td-comp-margin-xxl);
   }
 
   :deep(.t-card__title) {
-    font-size: 20px;
-    font-weight: 500;
+    font: var(--td-font-title-large);
+    font-weight: 400;
   }
 }
 </style>
