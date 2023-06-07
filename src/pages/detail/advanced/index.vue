@@ -125,12 +125,13 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import { prefix } from '@/config/global';
-import { BASE_INFO_DATA, TABLE_COLUMNS_DATA as columns, PRODUCT_LIST } from './constants';
+import { onMounted, ref } from 'vue';
+
 import { getPurchaseList } from '@/api/detail';
+import { prefix } from '@/config/global';
 
 import Product from './components/Product.vue';
+import { BASE_INFO_DATA, PRODUCT_LIST, TABLE_COLUMNS_DATA as columns } from './constants';
 
 const data = ref([]);
 const pagination = ref({
@@ -169,16 +170,16 @@ onMounted(() => {
 });
 
 const visible = ref(false);
-const sortChange = (val) => {
+const sortChange = (val: unknown) => {
   console.log(val);
 };
-const rehandleChange = (changeParams, triggerAndData) => {
+const rehandleChange = (changeParams: unknown, triggerAndData: unknown) => {
   console.log('统一Change', changeParams, triggerAndData);
 };
 const listClick = () => {
   visible.value = true;
 };
-const deleteClickOp = (columns) => {
+const deleteClickOp = (columns: { rowIndex: number }) => {
   data.value.splice(columns.rowIndex, 1);
 };
 const onConfirm = () => {

@@ -17,12 +17,7 @@
               @change="onStokeDataChange"
             />
           </template>
-          <div
-            id="stokeContainer"
-            ref="stokeContainer"
-            style="width: 100%; height: 351px"
-            class="dashboard-chart-container"
-          ></div>
+          <div id="stokeContainer" style="width: 100%; height: 351px" class="dashboard-chart-container"></div>
         </t-card>
       </t-col>
       <t-col :xs="12" :xl="3">
@@ -67,18 +62,18 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { onMounted, watch, ref, onUnmounted, nextTick, computed } from 'vue';
-
-import * as echarts from 'echarts/core';
-import { TooltipComponent, LegendComponent, GridComponent } from 'echarts/components';
 import { LineChart } from 'echarts/charts';
+import { GridComponent, LegendComponent, TooltipComponent } from 'echarts/components';
+import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
-import { useSettingStore } from '@/store';
-import { LAST_7_DAYS } from '@/utils/date';
-import { changeChartsTheme } from '@/utils/color';
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
 
 // 导入样式
 import Trend from '@/components/trend/index.vue';
+import { useSettingStore } from '@/store';
+import { changeChartsTheme } from '@/utils/color';
+import { LAST_7_DAYS } from '@/utils/date';
+
 import { constructInitDataset } from '../index';
 
 echarts.use([TooltipComponent, LegendComponent, GridComponent, LineChart, CanvasRenderer]);
@@ -198,8 +193,8 @@ const onStokeDataChange = (checkedValues: string[]) => {
 
   &__content {
     &-title {
-      font: var(--td-font-headline-medium);
-      font-weight: 400;
+      font-size: var(--td-font-size-headline-medium);
+      line-height: var(--td-line-height-headline-medium);
     }
 
     &-footer {

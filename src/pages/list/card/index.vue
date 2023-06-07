@@ -68,18 +68,31 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
 import { SearchIcon } from 'tdesign-icons-vue-next';
 import { MessagePlugin } from 'tdesign-vue-next';
-import ProductCard from '@/components/product-card/index.vue';
-import DialogForm from './components/DialogForm.vue';
-import { getCardList } from '@/api/list';
+import { computed, onMounted, ref } from 'vue';
 
-const INITIAL_DATA = {
+import { getCardList } from '@/api/list';
+import type { CardProductType } from '@/components/product-card/index.vue';
+import ProductCard from '@/components/product-card/index.vue';
+
+import DialogForm from './components/DialogForm.vue';
+
+interface FormData {
+  name: string;
+  status: string;
+  description: string;
+  type: number;
+  mark: string;
+  amount: number;
+  [key: string]: unknown;
+}
+
+const INITIAL_DATA: FormData = {
   name: '',
   status: '',
   description: '',
-  type: '',
+  type: 0,
   mark: '',
   amount: 0,
 };
@@ -125,7 +138,7 @@ const onPageSizeChange = (size: number) => {
 const onCurrentChange = (current: number) => {
   pagination.value.current = current;
 };
-const handleDeleteItem = (product) => {
+const handleDeleteItem = (product: CardProductType) => {
   confirmVisible.value = true;
   deleteProduct.value = product;
 };
@@ -139,9 +152,16 @@ const onCancel = () => {
   deleteProduct.value = undefined;
   formData.value = { ...INITIAL_DATA };
 };
-const handleManageProduct = (product) => {
+const handleManageProduct = (product: CardProductType) => {
   formDialogVisible.value = true;
-  formData.value = { ...product, status: product?.isSetup ? '1' : '0' };
+  formData.value = {
+    name: product.name,
+    status: product?.isSetup ? '1' : '0',
+    description: product.description,
+    type: product.type,
+    mark: '',
+    amount: 0,
+  };
 };
 </script>
 

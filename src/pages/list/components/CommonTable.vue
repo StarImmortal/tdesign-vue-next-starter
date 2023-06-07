@@ -105,24 +105,24 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
-import { MessagePlugin, PrimaryTableCol, TableRowData, PageInfo } from 'tdesign-vue-next';
-import Trend from '@/components/trend/index.vue';
-import { getList } from '@/api/list';
-import { useSettingStore } from '@/store';
-import { prefix } from '@/config/global';
+import { MessagePlugin, PageInfo, PrimaryTableCol, TableRowData } from 'tdesign-vue-next';
+import { computed, onMounted, ref } from 'vue';
 
+import { getList } from '@/api/list';
+import Trend from '@/components/trend/index.vue';
+import { prefix } from '@/config/global';
 import {
+  CONTRACT_PAYMENT_TYPES,
   CONTRACT_STATUS,
   CONTRACT_STATUS_OPTIONS,
-  CONTRACT_TYPES,
   CONTRACT_TYPE_OPTIONS,
-  CONTRACT_PAYMENT_TYPES,
+  CONTRACT_TYPES,
 } from '@/constants';
+import { useSettingStore } from '@/store';
 
 const store = useSettingStore();
 
-const COLUMNS: PrimaryTableCol<TableRowData>[] = [
+const COLUMNS: PrimaryTableCol[] = [
   {
     title: '合同名称',
     fixed: 'left',
@@ -167,8 +167,8 @@ const COLUMNS: PrimaryTableCol<TableRowData>[] = [
 
 const searchForm = {
   name: '',
-  no: undefined,
-  status: undefined,
+  no: '',
+  status: typeof CONTRACT_STATUS,
   type: '',
 };
 
@@ -233,24 +233,24 @@ onMounted(() => {
   fetchData();
 });
 
-const handleClickDelete = ({ row }) => {
-  deleteIdx.value = row.rowIndex;
+const handleClickDelete = (slot: { row: { rowIndex: number } }) => {
+  deleteIdx.value = slot.row.rowIndex;
   confirmVisible.value = true;
 };
-const onReset = (val) => {
+const onReset = (val: unknown) => {
   console.log(val);
 };
-const onSubmit = (val) => {
+const onSubmit = (val: unknown) => {
   console.log(val);
 };
 const rehandlePageChange = (pageInfo: PageInfo, newDataSource: TableRowData[]) => {
   console.log('分页变化', pageInfo, newDataSource);
 };
-const rehandleChange = (changeParams, triggerAndData) => {
+const rehandleChange = (changeParams: unknown, triggerAndData: unknown) => {
   console.log('统一Change', changeParams, triggerAndData);
 };
-const rehandleClickOp = ({ text, row }) => {
-  console.log(text, row);
+const rehandleClickOp = (ctx: unknown) => {
+  console.log(ctx);
 };
 
 const headerAffixedTop = computed(

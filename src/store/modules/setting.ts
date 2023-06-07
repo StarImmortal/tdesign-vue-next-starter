@@ -1,10 +1,11 @@
+import keys from 'lodash/keys';
 import { defineStore } from 'pinia';
 import { Color } from 'tvision-color';
-import keys from 'lodash/keys';
-import { LIGHT_CHART_COLORS, DARK_CHART_COLORS } from '@/config/color';
-import { insertThemeStylesheet, generateColorMap } from '@/utils/color';
+
+import { DARK_CHART_COLORS, LIGHT_CHART_COLORS } from '@/config/color';
 import STYLE_CONFIG from '@/config/style';
 import { store } from '@/store';
+import { generateColorMap, insertThemeStylesheet } from '@/utils/color';
 
 const state = {
   ...STYLE_CONFIG,
@@ -14,6 +15,7 @@ const state = {
 };
 
 export type TState = typeof state;
+export type TStateKey = keyof typeof state;
 
 export const useSettingStore = defineStore('setting', {
   state: () => state,
@@ -71,8 +73,8 @@ export const useSettingStore = defineStore('setting', {
     },
     updateConfig(payload: Partial<TState>) {
       for (const key in payload) {
-        if (payload[key] !== undefined) {
-          this[key] = payload[key];
+        if (payload[key as TStateKey] !== undefined) {
+          this[key] = payload[key as TStateKey];
         }
         if (key === 'mode') {
           this.changeMode(payload[key]);

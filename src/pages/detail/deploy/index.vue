@@ -77,20 +77,19 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref, watch, computed } from 'vue';
-
-import * as echarts from 'echarts/core';
-import { TitleComponent, ToolboxComponent, TooltipComponent, GridComponent, LegendComponent } from 'echarts/components';
 import { BarChart, LineChart } from 'echarts/charts';
+import { GridComponent, LegendComponent, TitleComponent, ToolboxComponent, TooltipComponent } from 'echarts/components';
+import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
-import { useSettingStore } from '@/store';
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
 
-import { getSmoothLineDataSet, get2ColBarChartDataSet } from './index';
-import { BASE_INFO_DATA, TABLE_COLUMNS as columns } from './constants';
+import { getProjectList } from '@/api/detail';
+import { prefix } from '@/config/global';
+import { useSettingStore } from '@/store';
 import { changeChartsTheme } from '@/utils/color';
 
-import { prefix } from '@/config/global';
-import { getProjectList } from '@/api/detail';
+import { BASE_INFO_DATA, TABLE_COLUMNS as columns } from './constants';
+import { get2ColBarChartDataSet, getSmoothLineDataSet } from './index';
 
 echarts.use([
   TitleComponent,
@@ -148,8 +147,6 @@ onMounted(() => {
   dataChart.setOption(get2ColBarChartDataSet({ ...chartColors.value }));
 });
 
-const intervalTimer = null;
-
 /// / chartSize update
 const updateContainer = () => {
   monitorChart.resize({
@@ -164,7 +161,6 @@ const updateContainer = () => {
 
 onUnmounted(() => {
   window.removeEventListener('resize', updateContainer);
-  clearInterval(intervalTimer);
 });
 
 const onAlertChange = () => {
@@ -183,10 +179,10 @@ watch(
   },
 );
 
-const sortChange = (val) => {
+const sortChange = (val: unknown) => {
   console.log(val);
 };
-const rehandleChange = (changeParams, triggerAndData) => {
+const rehandleChange = (changeParams: unknown, triggerAndData: unknown) => {
   console.log('统一Change', changeParams, triggerAndData);
 };
 const listClick = () => {
@@ -195,7 +191,7 @@ const listClick = () => {
 const onConfirm = () => {
   visible.value = false;
 };
-const deleteClickOp = (e) => {
+const deleteClickOp = (e: { rowIndex: number }) => {
   data.value.splice(e.rowIndex, 1);
 };
 </script>

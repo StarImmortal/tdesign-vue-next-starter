@@ -15,7 +15,6 @@
         </template>
         <div
           id="monitorContainer"
-          ref="monitorContainer"
           class="dashboard-chart-container"
           :style="{ width: '100%', height: `${resizeTime * 326}px` }"
         />
@@ -25,7 +24,6 @@
       <t-card title="销售渠道" :subtitle="currentMonth" class="dashboard-chart-card" :bordered="false">
         <div
           id="countContainer"
-          ref="countContainer"
           :style="{ width: `${resizeTime * 326}px`, height: `${resizeTime * 326}px`, margin: '0 auto' }"
           class="dashboard-chart-container"
         />
@@ -35,17 +33,17 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, watch, ref, onUnmounted, nextTick, computed, onDeactivated } from 'vue';
-
+import { LineChart, PieChart } from 'echarts/charts';
+import { GridComponent, LegendComponent, TooltipComponent } from 'echarts/components';
 import * as echarts from 'echarts/core';
-import { TooltipComponent, LegendComponent, GridComponent } from 'echarts/components';
-import { PieChart, LineChart } from 'echarts/charts';
 import { CanvasRenderer } from 'echarts/renderers';
-import { useSettingStore } from '@/store';
-import { LAST_7_DAYS } from '@/utils/date';
-import { changeChartsTheme } from '@/utils/color';
+import { computed, nextTick, onDeactivated, onMounted, onUnmounted, ref, watch } from 'vue';
 
-import { getPieChartDataSet, getLineChartDataSet } from '../index';
+import { useSettingStore } from '@/store';
+import { changeChartsTheme } from '@/utils/color';
+import { LAST_7_DAYS } from '@/utils/date';
+
+import { getLineChartDataSet, getPieChartDataSet } from '../index';
 
 echarts.use([TooltipComponent, LegendComponent, PieChart, GridComponent, LineChart, CanvasRenderer]);
 
