@@ -1,15 +1,20 @@
 <template>
   <t-row :gutter="16" class="row-container">
     <t-col :xs="12" :xl="9">
-      <t-card title="统计数据" :subtitle="`(万元)${currentMonth}`" class="dashboard-chart-card" :bordered="false">
-        <template #option>
+      <t-card
+        :title="$t('pages.dashboardBase.topPanel.analysis.title')"
+        :subtitle="currentMonth"
+        class="dashboard-chart-card"
+        :bordered="false"
+      >
+        <template #actions>
           <div class="dashboard-chart-title-container">
             <t-date-range-picker
               class="card-date-picker-container"
               theme="primary"
               mode="date"
               :default-value="LAST_7_DAYS"
-              @change="onCurrencyChange"
+              @change="(value) => onCurrencyChange(value as string[])"
             />
           </div>
         </template>
@@ -21,11 +26,16 @@
       </t-card>
     </t-col>
     <t-col :xs="12" :xl="3">
-      <t-card title="销售渠道" :subtitle="currentMonth" class="dashboard-chart-card" :bordered="false">
+      <t-card
+        :title="$t('pages.dashboardBase.topPanel.analysis.channels')"
+        :subtitle="currentMonth"
+        class="dashboard-chart-card"
+        :bordered="false"
+      >
         <div
           id="countContainer"
-          :style="{ width: `${resizeTime * 326}px`, height: `${resizeTime * 326}px`, margin: '0 auto' }"
           class="dashboard-chart-container"
+          :style="{ width: `${resizeTime * 326}px`, height: `${resizeTime * 326}px`, margin: '0 auto' }"
         />
       </t-card>
     </t-col>
@@ -33,11 +43,12 @@
 </template>
 
 <script setup lang="ts">
+import { useWindowSize } from '@vueuse/core';
 import { LineChart, PieChart } from 'echarts/charts';
 import { GridComponent, LegendComponent, TooltipComponent } from 'echarts/components';
 import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
-import { computed, nextTick, onDeactivated, onMounted, onUnmounted, ref, watch } from 'vue';
+import { computed, nextTick, onDeactivated, onMounted, ref, watch } from 'vue';
 
 import { useSettingStore } from '@/store';
 import { changeChartsTheme } from '@/utils/color';
@@ -86,6 +97,25 @@ const renderCountChart = () => {
   }
   countChart = echarts.init(countContainer);
   countChart.setOption(getPieChartDataSet(chartColors.value));
+
+  // 取消之前高亮的图形
+  countChart.dispatchAction({
+    type: 'downplay',
+    seriesIndex: 0,
+    dataIndex: -1,
+  });
+  // 高亮当前图形
+  countChart.dispatchAction({
+    type: 'highlight',
+    seriesIndex: 0,
+    dataIndex: 1,
+  });
+  // 显示 tooltip
+  countChart.dispatchAction({
+    type: 'showTip',
+    seriesIndex: 0,
+    dataIndex: 1,
+  });
 };
 
 const renderCharts = () => {
@@ -118,11 +148,11 @@ onMounted(() => {
   nextTick(() => {
     updateContainer();
   });
-  window.addEventListener('resize', updateContainer, false);
 });
 
-onUnmounted(() => {
-  window.removeEventListener('resize', updateContainer);
+const { width, height } = useWindowSize();
+watch([width, height], () => {
+  updateContainer();
 });
 
 onDeactivated(() => {

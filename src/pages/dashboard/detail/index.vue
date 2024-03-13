@@ -1,13 +1,13 @@
 <template>
   <div class="dashboard-panel-detail">
-    <t-card title="本月采购申请情况" class="dashboard-detail-card" :bordered="false">
+    <t-card :title="$t('pages.dashboardDetail.topPanel.title')" class="dashboard-detail-card" :bordered="false">
       <t-row :gutter="[16, 16]">
         <t-col v-for="(item, index) in PANE_LIST_DATA" :key="index" :xs="6" :xl="3">
           <t-card class="dashboard-list-card" :description="item.title">
             <div class="dashboard-list-card__number">{{ item.number }}</div>
             <div class="dashboard-list-card__text">
               <div class="dashboard-list-card__text-left">
-                环比
+                {{ $t('pages.dashboardDetail.topPanel.quarter') }}
                 <trend class="icon" :type="item.upTrend ? 'up' : 'down'" :describe="item.upTrend || item.downTrend" />
               </div>
               <t-icon name="chevron-right" />
@@ -18,7 +18,7 @@
     </t-card>
     <t-row :gutter="[16, 16]" class="row-margin">
       <t-col :xs="12" :xl="9">
-        <t-card class="dashboard-detail-card" title="采购商品申请趋势" subtitle="(件)" :bordered="false">
+        <t-card class="dashboard-detail-card" :title="$t('pages.dashboardDetail.procurement.title')" :bordered="false">
           <template #actions>
             <t-date-range-picker
               class="card-date-picker-container"
@@ -26,7 +26,7 @@
               theme="primary"
               mode="date"
               style="width: 248px"
-              @change="onMaterialChange"
+              @change="(value) => onMaterialChange(value as string[])"
             />
           </template>
           <div id="lineContainer" style="width: 100%; height: 416px" />
@@ -41,7 +41,11 @@
         />
       </t-col>
     </t-row>
-    <t-card :class="['dashboard-detail-card', 'row-margin']" title="采购商品满意度分布" :bordered="false">
+    <t-card
+      :class="['dashboard-detail-card', 'row-margin']"
+      :title="$t('pages.dashboardDetail.satisfaction.title')"
+      :bordered="false"
+    >
       <template #actions>
         <t-date-range-picker
           class="card-date-picker-container"
@@ -51,7 +55,7 @@
           style="display: inline-block; margin-right: var(--td-comp-margin-s); width: 248px"
           @change="onSatisfyChange"
         />
-        <t-button class="card-date-button"> 导出数据 </t-button>
+        <t-button class="card-date-button"> {{ $t('pages.dashboardDetail.satisfaction.export') }} </t-button>
       </template>
       <div id="scatterContainer" style="width: 100%; height: 434px" />
     </t-card>
@@ -65,11 +69,12 @@ export default {
 </script>
 
 <script setup lang="ts">
+import { useWindowSize } from '@vueuse/core';
 import { LineChart, ScatterChart } from 'echarts/charts';
 import { GridComponent, LegendComponent, TooltipComponent } from 'echarts/components';
 import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
-import { computed, nextTick, onDeactivated, onMounted, onUnmounted, watch } from 'vue';
+import { computed, nextTick, onDeactivated, onMounted, watch } from 'vue';
 
 import ProductCard from '@/components/product-card/index.vue';
 import Trend from '@/components/trend/index.vue';
@@ -122,14 +127,14 @@ const renderCharts = () => {
 
 onMounted(() => {
   renderCharts();
-  window.addEventListener('resize', updateContainer, false);
   nextTick(() => {
     updateContainer();
   });
 });
 
-onUnmounted(() => {
-  window.removeEventListener('resize', updateContainer);
+const { width, height } = useWindowSize();
+watch([width, height], () => {
+  updateContainer();
 });
 
 onDeactivated(() => {
@@ -258,6 +263,7 @@ const onMaterialChange = (value: string[]) => {
     .t-icon {
       font-size: var(--td-comp-size-xxxs);
     }
+
     &-left {
       display: flex;
 

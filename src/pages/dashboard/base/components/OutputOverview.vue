@@ -4,8 +4,8 @@
       <t-col :xs="12" :xl="9">
         <t-card
           :bordered="false"
-          title="出入库概览"
-          subtitle="(件)"
+          :title="$t('pages.dashboardBase.outputOverview.title')"
+          :subtitle="$t('pages.dashboardBase.outputOverview.subtitle')"
           :class="{ 'dashboard-overview-card': true, 'overview-panel': true }"
         >
           <template #actions>
@@ -14,7 +14,7 @@
               theme="primary"
               mode="date"
               :default-value="LAST_7_DAYS"
-              @change="onStokeDataChange"
+              @change="(value) => onStokeDataChange(value as string[])"
             />
           </template>
           <div id="stokeContainer" style="width: 100%; height: 351px" class="dashboard-chart-container"></div>
@@ -23,26 +23,34 @@
       <t-col :xs="12" :xl="3">
         <t-card :bordered="false" :class="{ 'dashboard-overview-card': true, 'export-panel': true }">
           <template #actions>
-            <t-button>导出数据</t-button>
+            <t-button>{{ $t('pages.dashboardBase.outputOverview.export') }}</t-button>
           </template>
           <t-row>
             <t-col :xs="6" :xl="12">
-              <t-card :bordered="false" subtitle="本月出库总计（件）" class="inner-card">
+              <t-card
+                :bordered="false"
+                :subtitle="$t('pages.dashboardBase.outputOverview.month.input')"
+                class="inner-card"
+              >
                 <div class="inner-card__content">
                   <div class="inner-card__content-title">1726</div>
                   <div class="inner-card__content-footer">
-                    自从上周以来
+                    {{ $t('pages.dashboardBase.outputOverview.since') }}
                     <trend class="trend-tag" type="down" :is-reverse-color="false" describe="20.3%" />
                   </div>
                 </div>
               </t-card>
             </t-col>
             <t-col :xs="6" :xl="12">
-              <t-card :bordered="false" subtitle="本月入库总计（件）" class="inner-card">
+              <t-card
+                :bordered="false"
+                :subtitle="$t('pages.dashboardBase.outputOverview.month.output')"
+                class="inner-card"
+              >
                 <div class="inner-card__content">
                   <div class="inner-card__content-title">226</div>
                   <div class="inner-card__content-footer">
-                    自从上周以来
+                    {{ $t('pages.dashboardBase.outputOverview.since') }}
                     <trend class="trend-tag" type="down" :is-reverse-color="false" describe="20.3%" />
                   </div>
                 </div>
@@ -62,11 +70,12 @@ export default {
 </script>
 
 <script setup lang="ts">
+import { useWindowSize } from '@vueuse/core';
 import { LineChart } from 'echarts/charts';
 import { GridComponent, LegendComponent, TooltipComponent } from 'echarts/components';
 import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
-import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
+import { computed, nextTick, onMounted, ref, watch } from 'vue';
 
 // 导入样式
 import Trend from '@/components/trend/index.vue';
@@ -119,11 +128,11 @@ onMounted(() => {
   nextTick(() => {
     updateContainer();
   });
-  window.addEventListener('resize', updateContainer, false);
 });
 
-onUnmounted(() => {
-  window.removeEventListener('resize', updateContainer);
+const { width, height } = useWindowSize();
+watch([width, height], () => {
+  updateContainer();
 });
 
 watch(

@@ -10,13 +10,9 @@
   margin-left: var(--td-comp-margin-s);
 }
 
+.t-transfer,
+.t-jumper,
 .t-pagination-mini {
-  .t-button + .t-button {
-    margin-left: 0;
-  }
-}
-
-.t-jumper {
   .t-button + .t-button {
     margin-left: 0;
   }
@@ -45,7 +41,8 @@
 }
 
 .t-menu--dark .t-menu__operations .t-icon {
-  color: rgba(255, 255, 255, 0.55);
+  color: rgb(255 255 255 / 55%);
+
   &:hover {
     cursor: pointer;
   }
@@ -81,6 +78,7 @@
   &-layout {
     height: calc(100vh - var(--td-comp-size-xxxl));
     overflow-y: scroll;
+
     &-tabs-nav {
       max-width: 100%;
       position: fixed;
@@ -153,6 +151,7 @@
       align-items: center;
       justify-content: center;
       width: 100%;
+
       &:hover {
         cursor: pointer;
       }
@@ -164,7 +163,7 @@
     }
 
     &-logo-tdesign-logo {
-      padding: 0 var(--td-comp-paddingLR-xl);
+      margin-right: var(--td-comp-margin-xxxl);
       height: var(--td-comp-size-s);
       width: 100%;
       color: var(--td-text-color-primary);
@@ -175,6 +174,10 @@
       font: var(--td-font-body-large);
       transition: all 0.3s;
     }
+  }
+
+  &-side-nav-dark {
+    color: var(--td-font-white-1) !important;
   }
 
   &-side-nav-placeholder {
