@@ -23,12 +23,12 @@
           <!-- 全局通知 -->
           <notice />
 
-          <t-tooltip placement="bottom" :content="$t('layout.header.code')">
+          <t-tooltip placement="bottom" :content="t('layout.header.code')">
             <t-button theme="default" shape="square" variant="text" @click="navToGitHub">
               <t-icon name="logo-github" />
             </t-button>
           </t-tooltip>
-          <t-tooltip placement="bottom" :content="$t('layout.header.help')">
+          <t-tooltip placement="bottom" :content="t('layout.header.help')">
             <t-button theme="default" shape="square" variant="text" @click="navToHelper">
               <t-icon name="help-circle" />
             </t-button>
@@ -51,10 +51,10 @@
             <template #dropdown>
               <t-dropdown-menu>
                 <t-dropdown-item class="operations-dropdown-container-item" @click="handleNav('/user/index')">
-                  <user-circle-icon />{{ $t('layout.header.user') }}
+                  <user-circle-icon />{{ t('layout.header.user') }}
                 </t-dropdown-item>
                 <t-dropdown-item class="operations-dropdown-container-item" @click="handleLogout">
-                  <poweroff-icon />{{ $t('layout.header.signOut') }}
+                  <poweroff-icon />{{ t('layout.header.signOut') }}
                 </t-dropdown-item>
               </t-dropdown-menu>
             </template>
@@ -66,7 +66,7 @@
               <template #suffix><chevron-down-icon /></template>
             </t-button>
           </t-dropdown>
-          <t-tooltip placement="bottom" :content="$t('layout.header.setting')">
+          <t-tooltip placement="bottom" :content="t('layout.header.setting')">
             <t-button theme="default" shape="square" variant="text" @click="toggleSettingPanel">
               <setting-icon />
             </t-button>
@@ -85,7 +85,7 @@ import { useRouter } from 'vue-router';
 
 import LogoFull from '@/assets/assets-logo-full.svg?component';
 import { prefix } from '@/config/global';
-import { langList } from '@/locales/index';
+import { langList, t } from '@/locales';
 import { useLocale } from '@/locales/useLocale';
 import { getActive } from '@/router';
 import { useSettingStore, useUserStore } from '@/store';
@@ -95,7 +95,7 @@ import MenuContent from './MenuContent.vue';
 import Notice from './Notice.vue';
 import Search from './Search.vue';
 
-const props = defineProps({
+const { theme, layout, showLogo, menu, isFixed, isCompact } = defineProps({
   theme: {
     type: String,
     default: 'light',
@@ -141,7 +141,6 @@ const active = computed(() => getActive());
 const layoutCls = computed(() => [`${prefix}-header-layout`]);
 
 const menuCls = computed(() => {
-  const { isFixed, layout, isCompact } = props;
   return [
     {
       [`${prefix}-header-menu`]: !isFixed,
@@ -151,7 +150,7 @@ const menuCls = computed(() => {
     },
   ];
 });
-const menuTheme = computed(() => props.theme as ModeType);
+const menuTheme = computed(() => theme as ModeType);
 
 // 切换语言
 const { changeLocale } = useLocale();
