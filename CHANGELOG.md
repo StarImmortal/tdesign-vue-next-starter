@@ -5,6 +5,18 @@ toc: false
 docClass: timeline
 ---
 
+## 🌈 0.13.1 `2025-06-17` 
+### 🚀 Features
+- `feat`: 使用 `defineOptions` 定义组件 @liweijie0812 ([#849](https://github.com/Tencent/tdesign-vue-next-starter/pull/849))
+### 🐞 Bug Fixes
+- `types`: 修复 @select-change 的事件类型 @calandnong ([#825](https://github.com/Tencent/tdesign-vue-next-starter/pull/825))
+- `Breadcrumb`: 修复面包屑的状态异常 @izoyo ([#840](https://github.com/Tencent/tdesign-vue-next-starter/pull/840))
+- `frame`: 修复内嵌网页时不能正常显示的问题 @timi137137 ([#851](https://github.com/Tencent/tdesign-vue-next-starter/pull/851))
+### 📈 Performance
+- `ESLint`: 迁移ESLint至v9 @timi137137 ([#826](https://github.com/Tencent/tdesign-vue-next-starter/pull/826))
+### 🚧 Others
+- `deps`: 升级组件库版本 @calandnong ([#825](https://github.com/Tencent/tdesign-vue-next-starter/pull/825))
+
 ## 🌈 0.12.0 `2025-01-06` 
 ### 🐞 Bug Fixes
 - `Vue`: 修复升级至 Vue 3.4 及 3.5 的生产模式下的问题 @uyarn ([#796](https://github.com/Tencent/tdesign-vue-next-starter/pull/796))
@@ -141,7 +153,7 @@ docClass: timeline
 - 升级相关依赖 `vite`需升级至`3.0`以上，支持图标后端配置等场景需求  by @timi137137 @uyarn (https://github.com/Tencent/tdesign-vue-next-starter/pull/394)
 
 ### 🐞 Bug Fixes
-- 修复自定义颜色切换明亮暗黑模式时无法沿用的缺陷 by @uyarn (https://github.com/Tencent/tdesign-vue-next-starter/pull/392)
+- 修复自定义颜色切换明亮深色模式时无法沿用的缺陷 by @uyarn (https://github.com/Tencent/tdesign-vue-next-starter/pull/392)
 
 `Tips: 此次发布 较 0.6.x 版本 删除了此前大量内置项目的色彩生成逻辑，权限控制相关逻辑也发生巨大变动 若打开预览无法访问请清除 localStorage 等缓存再尝试 跟进升级请慎重`
 
@@ -276,7 +288,7 @@ docClass: timeline
 - 模板中使用颜色变量全部改造为CSS Token by @kerwin612 ([#157](https://github.com/Tencent/tdesign-vue-next-starter/pull/157))
 
 ### 🐞 Bug Fixes
--  升级组件库至0.15.4，修复菜单字重及顶部菜单箭头翻转方向、暗黑模式的颜色问题 by @uyarn @leejim ([#159](https://github.com/Tencent/tdesign-vue-next-starter/pull/159))  [tdesign-vue-next#916](https://github.com/Tencent/tdesign-vue-next/pull/916)
+-  升级组件库至0.15.4，修复菜单字重及顶部菜单箭头翻转方向、深色模式的颜色问题 by @uyarn @leejim ([#159](https://github.com/Tencent/tdesign-vue-next-starter/pull/159))  [tdesign-vue-next#916](https://github.com/Tencent/tdesign-vue-next/pull/916)
 
 ## 🌈 0.3.2 `2022-05-27`
 ### 🚀  Features
